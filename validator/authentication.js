@@ -9,6 +9,10 @@ const schemas = {
         email: Joi.string().email().required(),
         password: Joi.string().min(6).required(),
         phoneNumber: Joi.string().length(10).pattern(/^[0-9]+$/).required(),
+    }) ,
+    signIn: Joi.object().keys({
+        email: Joi.string().email().required(),
+        password: Joi.string().min(6).required(),
     })
 }
 

@@ -3,6 +3,7 @@ import morgan from "morgan"
 import bodyParser from "body-parser"
 import mongoose from "mongoose"
 import authRouter from "./router/authentication.js"
+import 'dotenv/config'
 
 const app = express()
 
