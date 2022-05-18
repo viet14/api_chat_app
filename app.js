@@ -2,10 +2,19 @@ import express from "express"
 import morgan from "morgan"
 import bodyParser from "body-parser"
 import mongoose from "mongoose"
-import authRouter from "./router/authentication.js"
 import 'dotenv/config'
+import fileUpload from 'express-fileupload'
+import http from 'http'
+import {Server} from 'socket.io'
+
+//Route
+import authRouter from "./router/authentication.js"
+import userRouter from "./router/user.js"
 
 const app = express()
+const server = http.createServer(app)
+//file upload
+app.use(fileUpload())
 
 //Mongo db connection
 mongoose.connect('mongodb://localhost/ChatApp')
@@ -16,10 +25,20 @@ app.use(morgan('dev'))
 
 //BodyParser
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }));
+
+//Socket.io
+
+const io = new Server(server)
+
+io.on('connection',client =>{
+    console.log(client)
+})
 
 //Router
 
 app.use('/auth', authRouter)
+app.use('/user', userRouter)
 
 //Cath 404 error 
 
@@ -41,6 +60,6 @@ app.use((err , req , res , next)=>{
     })
 })
 
-app.listen(3000, ()=>{
+server.listen(3000, ()=>{
     console.log('Listen on port 3000')
 })

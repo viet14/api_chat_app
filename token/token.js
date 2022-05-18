@@ -15,4 +15,8 @@ const generateRefreshToken = (data) => {
     } , process.env.REFRESH_TOKEN_KEY , {expiresIn: "7d"})
 }
 
-export {generateAccessToken , generateRefreshToken}
+const decodeToken = (token , keys) =>{
+    return jwt.verify(token , keys)
+}
+
+export {generateAccessToken , generateRefreshToken , decodeToken}
